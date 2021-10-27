@@ -1,0 +1,40 @@
+/* Title of the Page */
+#title {
+	text-align: center;
+	font-size: 75px;
+	position: sticky;
+	top: 0;
+	background: white;
+	padding-bottom: 5px;
+}
+
+/* Input boxes for edit */
+#editInput {
+	transition: width 0.4s ease-in-out;
+	width: 100%;
+}
+
+/* Buttons in the action column */
+#edit, #delete {
+	margin: 2px;
+}
+
+/* Top of the table */
+#header {
+	background: lightgrey;
+	position: sticky;
+	top: 135px;
+}
+
+/* Button to add an animal */
+#addAnimalBtn {
+	position: sticky;
+	top: 92px;
+	background: white;
+	padding-bottom: 5px;
+}
+
+/* Extra to make the backgroud white */
+#whitebg {
+	background: white;
+}

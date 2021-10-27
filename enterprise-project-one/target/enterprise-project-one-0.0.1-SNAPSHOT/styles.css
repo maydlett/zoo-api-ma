@@ -1,0 +1,12 @@
+#title {
+	text-align: center;
+	font-size: 75px;
+}
+
+#editInput {
+	transition: width 0.4s ease-in-out;
+}
+
+#editInput:focus {
+	width: 50%;
+}

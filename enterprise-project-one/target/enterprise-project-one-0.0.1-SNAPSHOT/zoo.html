@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1" />
+        <link
+      		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+      		rel="stylesheet"
+      		integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+      		crossorigin="anonymous"
+    	/>
+    	<link rel="stylesheet" href="styles.css">
+    	<script src="https://kit.fontawesome.com/ca244bc902.js" crossorigin="anonymous"></script>
+    	<script src="scripts.js"></script>
+    	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
+		<title>Zoo List</title>
+	</head>
+	<body>
+		<h1 id='title'><i class="fab fa-evernote fa-flip-horizontal"></i> Zoo API <i class="fab fa-evernote"></i></h1>
+        <div class="container-fluid">
+			
+			<!-- START OF ADD ANIMAL FORM MODAL -->
+			<div class="modal" id="animalModal" tabindex="-1" aria-labelledby="animalModalLabel" aria-hidden="true">
+			  	<div class="modal-dialog modal-dialog-centered">
+			    	<div class="modal-content">
+				      	<div class="modal-header">
+				        	<h5 class="modal-title" id="animalModalLabel">Add an Animal</h5>
+				        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      	</div>
+				      	<div class="modal-body">
+				        	<form id="new-animal-form" action="#">
+								<div class="form-group">
+									<label>Name</label>
+									<input id="animal-name" class="form-control" type="text">
+								</div>
+								<div class="form-group">
+									<label>Scientific Name</label>
+									<input id="animal-sc-name" class="form-control" type="text">
+								</div>
+								<div class="form-group">
+									<label>Life Span</label>
+									<input id="animal-lifespan" class="form-control" type="number">
+								</div>
+								<div class="form-group">
+									<label>Weight</label>
+									<input id="animal-weight" class="form-control" type="number">
+								</div>
+								<div class="form-group">
+									<label>Diet</label>
+									<input id="animal-diet" class="form-control" type="text">
+								</div>
+								<div class="form-group">
+									<label>Endangered Status</label>
+									<input id="animal-status" class="form-control" type="text">
+								</div>
+								<div class="form-group">
+									<label>Picture</label>
+									<input id="animal-Picture" class="form-control" type="text">
+								</div>
+							</form>
+				      	</div>
+				      	<div class="modal-footer">
+				        	<button class="btn btn-primary" type="submit" form="new-animal-form">Add Animal</button>
+				        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				      	</div>
+			    	</div>
+			  	</div>
+			</div>
+			<!-- END OF ADD ANIMAL FORM MODAL -->
+			
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#animalModal">
+  				Add an Animal
+			</button>
+
+			<div>
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Scientific Name</th>
+							<th>Life Span</th>
+							<th>Weight</th>
+							<th>Diet</th>
+							<th>Endangered Status</th>
+							<th>Picture</th>
+							<th>Update</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody id="zoo-table-body">
+						<!-- Will add rows to are table dynamically using javascript -->
+					</tbody>
+				</table>
+			</div>
+
+	  </div>	
+        
+	</body>
+	
+	<script type="text/javascript">
+	
+		document.getElementById("new-animal-form").addEventListener('submit', function(event) {
+			event.preventDefault(); // Prevent Default form actions from occuring
+			
+			var formName = document.getElementById('animal-name').value;
+			var formSciName = document.getElementById('animal-sc-name').value;
+			var formLife = document.getElementById('animal-lifespan').value;
+			var formWeight = document.getElementById('animal-weight').value;
+			var formDiet = document.getElementById('animal-diet').value;
+			var formStatus = document.getElementById('animal-status').value;
+			var formPic = document.getElementById('animal-Picture').value;
+			
+			//ES6+ allows for object literal syntax: basically JSON objects on the fly
+			var animal = {
+				name : formName,
+				scientific : formSciName,
+				lifespan : formLife,
+				weight : formWeight,
+				diet : formDiet,
+				status : formStatus,
+				picurl : formPic
+			};
+		
+			console.log("===============================");
+			console.log(animal);
+			console.log("===============================");
+			
+			//make AJAX call
+		
+			// 1. Make an XHR object
+			let xhr = new XMLHttpRequest(); // Makes HTTP requests
+		
+			// 2. Define what happens during the AJAX call
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					//Getting back the updated movie
+					console.log(xhr.responseText);
+					var updatedAnimal = JSON.parse(xhr.responseText);
+					//Add movie to table
+					addAnimalToTable(updatedAnimal);	
+					
+					//reset the form
+					document.getElementById('new-animal-form').reset();
+				}
+			}
+		
+			// 3. Open the XHR call with the http request verb and the URL
+			xhr.open('POST', '/enterprise-project-one/api/zoo');
+		
+			// 4. Send the AJAX call
+			xhr.send(JSON.stringify(animal)); // Converting from variable to JSON and sending it in the post request
+		});
+			
+	</script>
+	
+</html>
